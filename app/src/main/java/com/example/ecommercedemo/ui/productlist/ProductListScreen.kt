@@ -20,7 +20,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.ecommercedemo.domain.model.ProductDomain
+import com.example.ecommercedemo.ui.model.ProductUi
 import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -53,7 +53,7 @@ fun ProductListScreen(
 }
 
 @Composable
-fun ProductItem(product: ProductDomain, onClick: () -> Unit) {
+fun ProductItem(product: ProductUi, onClick: () -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()

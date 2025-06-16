@@ -2,8 +2,9 @@ package com.example.ecommercedemo.ui.productdetail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.ecommercedemo.domain.model.ProductDomain
 import com.example.ecommercedemo.domain.repository.ProductRepository
+import com.example.ecommercedemo.ui.mapper.toUiModel
+import com.example.ecommercedemo.ui.model.ProductUi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -13,8 +14,8 @@ class ProductDetailViewModel(
     private val repository: ProductRepository
 ) : ViewModel() {
 
-    private val _product = MutableStateFlow<ProductDomain?>(null)
-    val product: StateFlow<ProductDomain?> = _product
+    private val _product = MutableStateFlow<ProductUi?>(null)
+    val product: StateFlow<ProductUi?> = _product
 
     init {
         loadProduct()
@@ -22,7 +23,8 @@ class ProductDetailViewModel(
 
     private fun loadProduct() {
         viewModelScope.launch {
-            _product.value = ProductDomain(productId, "Product $productId", 99.99)
+            val product = repository.getProductById(productId)
+            _product.value = product?.toUiModel()
         }
     }
 }
