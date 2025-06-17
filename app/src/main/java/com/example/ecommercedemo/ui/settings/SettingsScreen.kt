@@ -1,12 +1,8 @@
 package com.example.ecommercedemo.ui.settings
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
@@ -28,28 +24,19 @@ fun SettingsScreen(themeViewModel: ThemeViewModel) {
     Scaffold(
         topBar = { TopAppBar(title = { Text("Settings") }) }
     ) { padding ->
-        Column(
+        Row(
             modifier = Modifier
                 .padding(padding)
                 .padding(16.dp)
                 .fillMaxSize(),
-            verticalArrangement = Arrangement.Top,
+            verticalAlignment = Alignment.Top,
+            horizontalArrangement = Arrangement.SpaceBetween,
         ) {
-            Text(text = "Toggle Dark Mode")
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text(text = if (isDarkMode) "Dark Mode is ON" else "Dark Mode is OFF")
-                Switch(
-                    checked = isDarkMode,
-                    onCheckedChange = { themeViewModel.toggleDarkMode() }
-                )
-            }
+            Text(text = if (isDarkMode) "Dark Mode is ON" else "Dark Mode is OFF")
+            Switch(
+                checked = isDarkMode,
+                onCheckedChange = { themeViewModel.toggleDarkMode() }
+            )
         }
     }
 
