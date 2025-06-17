@@ -19,13 +19,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.ecommercedemo.ui.theme.ThemeViewModel
-import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SettingsScreen(viewModel: ThemeViewModel = koinViewModel()) {
-    val isDarkMode by viewModel.isDarkMode.collectAsState()
+fun SettingsScreen(themeViewModel: ThemeViewModel) {
+    val isDarkMode by themeViewModel.isDarkMode.collectAsState()
 
     Scaffold(
         topBar = { TopAppBar(title = { Text("Settings") }) }
@@ -49,7 +47,7 @@ fun SettingsScreen(viewModel: ThemeViewModel = koinViewModel()) {
                 Text(text = if (isDarkMode) "Dark Mode is ON" else "Dark Mode is OFF")
                 Switch(
                     checked = isDarkMode,
-                    onCheckedChange = { viewModel.toggleDarkMode() }
+                    onCheckedChange = { themeViewModel.toggleDarkMode() }
                 )
             }
         }

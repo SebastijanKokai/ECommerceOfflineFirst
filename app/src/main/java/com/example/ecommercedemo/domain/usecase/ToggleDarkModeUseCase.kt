@@ -10,12 +10,12 @@ class ToggleDarkModeUseCase(
     }
 
     override suspend fun execute(params: Unit) {
-        val current = dataStoreRepository.getInt(DARK_MODE_KEY) ?: 0
-        val toggled = if (current == 0) 1 else 0
-        dataStoreRepository.putInt(DARK_MODE_KEY, toggled)
+        val current = dataStoreRepository.getBool(DARK_MODE_KEY) ?: false
+        val toggled = !current
+        dataStoreRepository.putBool(DARK_MODE_KEY, toggled)
     }
 
     suspend fun isDarkMode(): Boolean {
-        return (dataStoreRepository.getInt(DARK_MODE_KEY) ?: 0) == 1
+        return dataStoreRepository.getBool(DARK_MODE_KEY) ?: false
     }
 }

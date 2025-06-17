@@ -1,4 +1,4 @@
-package com.example.ecommercedemo.ui.theme
+package com.example.ecommercedemo.ui.settings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

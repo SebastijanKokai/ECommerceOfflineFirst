@@ -8,9 +8,13 @@ import androidx.navigation.compose.rememberNavController
 import com.example.ecommercedemo.ui.productdetail.ProductDetailScreen
 import com.example.ecommercedemo.ui.productlist.ProductListScreen
 import com.example.ecommercedemo.ui.settings.SettingsScreen
+import com.example.ecommercedemo.ui.settings.ThemeViewModel
 
 @Composable
-fun ShopNavGraph(navController: NavHostController = rememberNavController()) {
+fun ShopNavGraph(
+    navController: NavHostController = rememberNavController(),
+    themeViewModel: ThemeViewModel
+) {
     NavHost(
         navController = navController,
         startDestination = "productList"
@@ -23,7 +27,7 @@ fun ShopNavGraph(navController: NavHostController = rememberNavController()) {
             ProductDetailScreen(productId = productId)
         }
         composable("settings") {
-            SettingsScreen()
+            SettingsScreen(themeViewModel = themeViewModel)
         }
     }
 
