@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.ecommercedemo.ui.productdetail.ProductDetailScreen
 import com.example.ecommercedemo.ui.productlist.ProductListScreen
+import com.example.ecommercedemo.ui.settings.SettingsScreen
 
 @Composable
 fun ShopNavGraph(navController: NavHostController = rememberNavController()) {
@@ -20,6 +21,9 @@ fun ShopNavGraph(navController: NavHostController = rememberNavController()) {
         composable("productDetail/{productId}") { navBackStackEntry ->
             val productId = navBackStackEntry.arguments?.getString("productId") ?: ""
             ProductDetailScreen(productId = productId)
+        }
+        composable("settings") {
+            SettingsScreen()
         }
     }
 
