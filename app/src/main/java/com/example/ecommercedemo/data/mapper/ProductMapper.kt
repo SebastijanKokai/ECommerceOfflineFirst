@@ -10,15 +10,21 @@ fun List<ProductResponse>.toDomain() = this.map { it.toDomain() }
 
 fun ProductResponse.toDomain() = Product(
     id = id,
-    name = title,
+    title = title,
+    description = description,
     price = price,
+    category = category,
+    image = image,
 )
 
 fun ProductEntity.toDomain(): Product {
     return Product(
         id = id,
-        name = title,
+        title = title,
+        description = description,
         price = price,
+        category = category,
+        image = image,
     )
 }
 

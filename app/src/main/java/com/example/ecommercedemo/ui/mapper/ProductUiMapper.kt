@@ -9,6 +9,7 @@ fun List<Product>.toUiModel() = this.map { it.toUiModel() }
 
 fun Product.toUiModel() = ProductUi(
     id = id,
-    name = name,
+    name = title,
     price = String.format(Locale.ENGLISH, "%.2f", price),
+    image = image,
 )
