@@ -10,11 +10,11 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val productModule = module {
-    single<ProductRepository> { ProductRepositoryImpl() }
+    single<ProductRepository> { ProductRepositoryImpl(get()) }
 
     factory { GetProductListUseCase(get()) }
     factory { GetProductDetailUseCase(get()) }
 
     viewModel { ProductListViewModel(get()) }
-    viewModel { (productId: String) -> ProductDetailViewModel(productId, get()) }
+    viewModel { (productId: Int) -> ProductDetailViewModel(productId, get()) }
 }

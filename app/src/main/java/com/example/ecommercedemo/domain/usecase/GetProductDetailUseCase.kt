@@ -5,9 +5,9 @@ import com.example.ecommercedemo.domain.repository.ProductRepository
 
 class GetProductDetailUseCase(
     private val productRepository: ProductRepository
-) : BaseUseCase<String, ProductDomain?>() {
+) : BaseUseCase<Int, ProductDomain?>() {
 
-    override suspend fun execute(params: String): ProductDomain? {
+    override suspend fun execute(params: Int): ProductDomain? {
         return productRepository.getProductById(params)
     }
 }

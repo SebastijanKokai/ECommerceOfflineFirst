@@ -4,5 +4,5 @@ import com.example.ecommercedemo.domain.model.ProductDomain
 
 interface ProductRepository {
     suspend fun getProducts(): List<ProductDomain>
-    suspend fun getProductById(productId: String): ProductDomain?
+    suspend fun getProductById(productId: Int): ProductDomain?
 }

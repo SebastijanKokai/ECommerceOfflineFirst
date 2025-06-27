@@ -28,7 +28,7 @@ import org.koin.core.parameter.parametersOf
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProductDetailScreen(
-    productId: String,
+    productId: Int?,
     viewModel: ProductDetailViewModel = koinViewModel(parameters = {
         parametersOf(
             productId

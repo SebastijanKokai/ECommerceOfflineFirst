@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class ProductDetailViewModel(
-    private val productId: String,
+    private val productId: Int?,
     private val getProductDetailUseCase: GetProductDetailUseCase
 ) : ViewModel() {
 
@@ -27,7 +27,9 @@ class ProductDetailViewModel(
             _uiState.value = UiState.Loading
 
             runCatching {
-                getProductDetailUseCase.execute(productId)?.toUiModel()
+                productId?.let {
+                    getProductDetailUseCase.execute(it)?.toUiModel()
+                }
             }.onFailure {
                 _uiState.value = UiState.Error(it.message ?: "Unknown Error")
             }.onSuccess { productUi ->
