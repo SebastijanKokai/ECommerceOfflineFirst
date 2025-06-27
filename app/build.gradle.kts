@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    id("com.google.devtools.ksp") version "1.9.0-1.0.13"
 }
 
 android {
@@ -70,6 +71,9 @@ dependencies {
     implementation(libs.okhttp.logging)
     implementation(libs.moshi)
     implementation(libs.moshi.kotlin)
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    ksp(libs.room.compiler)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
