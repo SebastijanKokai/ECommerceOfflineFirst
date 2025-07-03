@@ -8,9 +8,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import com.example.ecommercedemo.navigation.ShopNavGraph
+import androidx.navigation.compose.rememberNavController
+import com.example.ecommercedemo.core.navigation.LocalRootNavController
+import com.example.ecommercedemo.core.navigation.graph.RootNavGraph
 import com.example.ecommercedemo.ui.settings.ThemeViewModel
 import org.koin.androidx.compose.koinViewModel
 
@@ -26,11 +29,16 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun EcommerceDemoApp(themeViewModel: ThemeViewModel = koinViewModel()) {
+    val navController = rememberNavController()
     val isDarkMode by themeViewModel.isDarkMode.collectAsState()
 
-    MaterialTheme(
-        colorScheme = if (isDarkMode) darkColorScheme() else lightColorScheme()
+    CompositionLocalProvider(
+        LocalRootNavController provides navController
     ) {
-        ShopNavGraph(themeViewModel = themeViewModel)
+        MaterialTheme(
+            colorScheme = if (isDarkMode) darkColorScheme() else lightColorScheme()
+        ) {
+            RootNavGraph(navController = navController, themeViewModel = themeViewModel)
+        }
     }
 }

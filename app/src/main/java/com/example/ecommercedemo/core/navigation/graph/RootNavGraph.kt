@@ -1,38 +1,34 @@
-package com.example.ecommercedemo.navigation
+package com.example.ecommercedemo.core.navigation.graph
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.ecommercedemo.core.navigation.AppRoute
+import com.example.ecommercedemo.core.navigation.bottomnav.HomeWithBottomNav
 import com.example.ecommercedemo.ui.productdetail.ProductDetailScreen
-import com.example.ecommercedemo.ui.productlist.ProductListScreen
-import com.example.ecommercedemo.ui.settings.SettingsScreen
 import com.example.ecommercedemo.ui.settings.ThemeViewModel
 
 @Composable
-fun ShopNavGraph(
-    navController: NavHostController = rememberNavController(),
+fun RootNavGraph(
+    navController: NavHostController,
     themeViewModel: ThemeViewModel
 ) {
     NavHost(
         navController = navController,
-        startDestination = "productList"
+        startDestination = AppRoute.Home.path,
     ) {
-        composable("productList") {
-            ProductListScreen(navController = navController)
+        composable(AppRoute.Home.path) {
+            HomeWithBottomNav(themeViewModel)
         }
         composable(
-            "productDetail/{productId}",
+            AppRoute.ProductDetail.path,
             arguments = listOf(navArgument("productId") { type = NavType.IntType })
         ) { navBackStackEntry ->
             val productId = navBackStackEntry.arguments?.getInt("productId") ?: -1
             ProductDetailScreen(productId = productId)
-        }
-        composable("settings") {
-            SettingsScreen(themeViewModel = themeViewModel)
         }
     }
 
