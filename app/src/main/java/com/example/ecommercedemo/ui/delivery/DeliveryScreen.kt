@@ -23,6 +23,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.example.ecommercedemo.core.extension.formatTime
 import com.example.ecommercedemo.ui.model.UiEvent
 import org.koin.androidx.compose.koinViewModel
 import java.time.LocalDateTime
@@ -66,9 +67,10 @@ fun DeliveryScreen(viewModel: DeliveryViewModel = koinViewModel()) {
             val deliveryMillis = remember {
                 deliveryTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
             }
+            val formattedTime = deliveryTime.formatTime("HH:mm")
 
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Text("Delivery at: ${deliveryTime.toLocalTime()}")
+                Text("Delivery at: $formattedTime")
                 Spacer(Modifier.height(24.dp))
                 Button(
                     onClick = { viewModel.schedule(deliveryMillis) },
