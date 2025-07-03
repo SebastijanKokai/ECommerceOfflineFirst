@@ -20,6 +20,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.example.ecommercedemo.core.navigation.AppRoute
+import com.example.ecommercedemo.core.navigation.LocalRootNavController
 import com.example.ecommercedemo.ui.model.ProductUi
 import com.example.ecommercedemo.ui.model.UiState
 import org.koin.androidx.compose.koinViewModel
@@ -84,6 +86,8 @@ private fun EmptyState() {
 
 @Composable
 private fun SuccessState(product: ProductUi?) {
+    val navController = LocalRootNavController.current
+
     Column(
         modifier = Modifier
             .padding(16.dp)
@@ -96,7 +100,9 @@ private fun SuccessState(product: ProductUi?) {
         Text(text = "Price: $${product?.price}", style = MaterialTheme.typography.bodyLarge)
         Spacer(modifier = Modifier.weight(1f))
 
-        Button(onClick = { /* TODO: Add to cart logic */ }, modifier = Modifier.fillMaxWidth()) {
+        Button(onClick = {
+            navController.navigate(AppRoute.Delivery.path)
+        }, modifier = Modifier.fillMaxWidth()) {
             Text("Add to cart")
         }
     }

@@ -8,6 +8,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.ecommercedemo.core.navigation.AppRoute
 import com.example.ecommercedemo.core.navigation.bottomnav.HomeWithBottomNav
+import com.example.ecommercedemo.ui.delivery.DeliveryScreen
 import com.example.ecommercedemo.ui.productdetail.ProductDetailScreen
 import com.example.ecommercedemo.ui.settings.ThemeViewModel
 
@@ -29,6 +30,9 @@ fun RootNavGraph(
         ) { navBackStackEntry ->
             val productId = navBackStackEntry.arguments?.getInt("productId") ?: -1
             ProductDetailScreen(productId = productId)
+        }
+        composable(AppRoute.Delivery.path) {
+            DeliveryScreen()
         }
     }
 
