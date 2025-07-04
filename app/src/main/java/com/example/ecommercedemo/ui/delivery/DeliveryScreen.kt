@@ -22,8 +22,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.example.ecommercedemo.core.extension.formatTime
+import com.example.ecommercedemo.core.extension.openAppNotificationSettings
+import com.example.ecommercedemo.core.extension.requestScheduleExactAlarmPermission
+import com.example.ecommercedemo.ui.model.PermissionEvent
 import com.example.ecommercedemo.ui.model.UiEvent
 import org.koin.androidx.compose.koinViewModel
 import java.time.LocalDateTime
@@ -32,11 +36,26 @@ import java.time.ZoneId
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DeliveryScreen(viewModel: DeliveryViewModel = koinViewModel()) {
+    val context = LocalContext.current
     val isLoading = viewModel.isLoading.collectAsState()
     val snackbarHostState = remember { SnackbarHostState() }
 
     LaunchedEffect(Unit) {
-        viewModel.event.collect { event ->
+        viewModel.permissionEvent.collect { event ->
+            when (event) {
+                PermissionEvent.ShowNotificationPermissionDialog -> {
+                    context.openAppNotificationSettings()
+                }
+
+                PermissionEvent.ShowSchedulePermissionDialog -> {
+                    context.requestScheduleExactAlarmPermission()
+                }
+            }
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        viewModel.scheduleEvent.collect { event ->
             when (event) {
                 is UiEvent.ShowSuccess -> {
                     snackbarHostState.showSnackbar(event.message)
@@ -61,7 +80,6 @@ fun DeliveryScreen(viewModel: DeliveryViewModel = koinViewModel()) {
                 .padding(padding)
                 .fillMaxSize(),
             contentAlignment = Alignment.Center
-
         ) {
             val deliveryTime = remember { LocalDateTime.now().plusHours(2) }
             val deliveryMillis = remember {
@@ -73,7 +91,9 @@ fun DeliveryScreen(viewModel: DeliveryViewModel = koinViewModel()) {
                 Text("Delivery at: $formattedTime")
                 Spacer(Modifier.height(24.dp))
                 Button(
-                    onClick = { viewModel.schedule(deliveryMillis) },
+                    onClick = {
+                        viewModel.schedule(deliveryMillis)
+                    },
                     enabled = !isLoading.value
                 ) {
                     if (isLoading.value) {
@@ -86,7 +106,6 @@ fun DeliveryScreen(viewModel: DeliveryViewModel = koinViewModel()) {
                     Text("Set Delivery Reminder")
                 }
             }
-
         }
     }
 }
