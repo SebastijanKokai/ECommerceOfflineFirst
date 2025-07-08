@@ -17,7 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.ecommercedemo.core.navigation.LocalRootNavController
-import com.example.ecommercedemo.ui.model.ProductUi
+import com.example.ecommercedemo.ui.model.ProductListUi
 import com.example.ecommercedemo.ui.model.UiState
 import org.koin.androidx.compose.koinViewModel
 
@@ -46,8 +46,8 @@ fun ProductListScreen(
                 ErrorState(message)
             }
 
-            is UiState.Success<List<ProductUi>> -> {
-                val products = (uiState as UiState.Success<List<ProductUi>>).data
+            is UiState.Success<List<ProductListUi>> -> {
+                val products = (uiState as UiState.Success<List<ProductListUi>>).data
                 SuccessState(products)
             }
         }
@@ -88,7 +88,7 @@ private fun EmptyState() {
 }
 
 @Composable
-private fun SuccessState(products: List<ProductUi>) {
+private fun SuccessState(products: List<ProductListUi>) {
     val navController = LocalRootNavController.current
 
     LazyColumn(

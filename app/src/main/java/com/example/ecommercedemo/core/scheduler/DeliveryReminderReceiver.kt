@@ -10,7 +10,7 @@ import com.example.ecommercedemo.R
 
 class DeliveryReminderReceiver : BroadcastReceiver() {
     companion object {
-        val CHANNEL_ID = "delivery_reminder_channel"
+        const val CHANNEL_ID = "delivery_reminder_channel"
     }
 
     override fun onReceive(context: Context, intent: Intent) {

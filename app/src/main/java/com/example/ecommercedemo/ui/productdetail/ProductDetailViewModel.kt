@@ -3,8 +3,8 @@ package com.example.ecommercedemo.ui.productdetail
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.ecommercedemo.domain.usecase.GetProductDetailUseCase
-import com.example.ecommercedemo.ui.mapper.toUiModel
-import com.example.ecommercedemo.ui.model.ProductUi
+import com.example.ecommercedemo.ui.mapper.toProductDetailUiModel
+import com.example.ecommercedemo.ui.model.ProductDetailUi
 import com.example.ecommercedemo.ui.model.UiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -15,8 +15,8 @@ class ProductDetailViewModel(
     private val getProductDetailUseCase: GetProductDetailUseCase
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow<UiState<ProductUi?>>(UiState.Initial)
-    val uiState: StateFlow<UiState<ProductUi?>> = _uiState
+    private val _uiState = MutableStateFlow<UiState<ProductDetailUi?>>(UiState.Initial)
+    val uiState: StateFlow<UiState<ProductDetailUi?>> = _uiState
 
     init {
         loadProduct()
@@ -28,7 +28,7 @@ class ProductDetailViewModel(
 
             runCatching {
                 productId?.let {
-                    getProductDetailUseCase.execute(it)?.toUiModel()
+                    getProductDetailUseCase.execute(it)?.toProductDetailUiModel()
                 }
             }.onFailure {
                 _uiState.value = UiState.Error(it.message ?: "Unknown Error")

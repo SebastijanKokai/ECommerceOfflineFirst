@@ -22,10 +22,10 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
-import com.example.ecommercedemo.ui.model.ProductUi
+import com.example.ecommercedemo.ui.model.ProductListUi
 
 @Composable
-fun ProductItem(product: ProductUi, onClick: () -> Unit) {
+fun ProductItem(product: ProductListUi, onClick: () -> Unit) {
     Card(
         modifier = Modifier
             .padding(8.dp)

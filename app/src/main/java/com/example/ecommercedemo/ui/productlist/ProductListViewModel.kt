@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.ecommercedemo.domain.usecase.GetProductListUseCase
 import com.example.ecommercedemo.domain.usecase.RefreshProductsUseCase
-import com.example.ecommercedemo.ui.mapper.toUiModel
-import com.example.ecommercedemo.ui.model.ProductUi
+import com.example.ecommercedemo.ui.mapper.toProductListUiModel
+import com.example.ecommercedemo.ui.model.ProductListUi
 import com.example.ecommercedemo.ui.model.UiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -19,8 +19,8 @@ class ProductListViewModel(
     private val getProductListUseCase: GetProductListUseCase,
     private val refreshProductsUseCase: RefreshProductsUseCase
 ) : ViewModel() {
-    private val _uiState = MutableStateFlow<UiState<List<ProductUi>>>(UiState.Initial)
-    val uiState: StateFlow<UiState<List<ProductUi>>> = _uiState
+    private val _uiState = MutableStateFlow<UiState<List<ProductListUi>>>(UiState.Initial)
+    val uiState: StateFlow<UiState<List<ProductListUi>>> = _uiState
 
     init {
         loadProducts()
@@ -30,7 +30,7 @@ class ProductListViewModel(
     private fun loadProducts() {
         viewModelScope.launch {
             getProductListUseCase.execute(Unit)
-                .map { products -> products.toUiModel() }
+                .map { products -> products.toProductListUiModel() }
                 .map { uiList -> if (uiList.isEmpty()) UiState.Empty else UiState.Success(uiList) }
                 .onStart { _uiState.value = UiState.Loading }
                 .catch { e ->

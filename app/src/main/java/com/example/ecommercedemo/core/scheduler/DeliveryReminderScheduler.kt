@@ -1,6 +1,5 @@
 package com.example.ecommercedemo.core.scheduler
 
-import android.annotation.SuppressLint
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
@@ -19,7 +18,6 @@ class DeliveryReminderScheduler(private val context: Context) {
         return NotificationManagerCompat.from(context).areNotificationsEnabled()
     }
 
-    @SuppressLint("ScheduleExactAlarm")
     fun scheduleReminder(deliveryTimeInMillis: Long) {
         if (!canScheduleAlarms() || !canNotifyUser()) {
             return
