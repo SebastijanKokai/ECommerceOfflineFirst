@@ -21,6 +21,9 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -29,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.ecommercedemo.core.navigation.AppRoute
 import com.example.ecommercedemo.core.navigation.LocalRootNavController
+import com.example.ecommercedemo.ui.components.QuantityPicker
 import com.example.ecommercedemo.ui.model.ProductDetailUi
 import com.example.ecommercedemo.ui.model.UiState
 import org.koin.androidx.compose.koinViewModel
@@ -94,6 +98,7 @@ private fun EmptyState() {
 @Composable
 private fun SuccessState(product: ProductDetailUi?) {
     val navController = LocalRootNavController.current
+    var quantity by remember { mutableStateOf(0) }
 
     product?.let {
         Column(
@@ -128,6 +133,12 @@ private fun SuccessState(product: ProductDetailUi?) {
                 modifier = Modifier.padding(top = 8.dp)
             )
 
+            QuantityPicker(
+                quantity = quantity,
+                onIncrease = { quantity++ },
+                onDecrease = { if (quantity > 0) quantity-- },
+            )
+
             Spacer(modifier = Modifier.weight(1f))
 
             Button(
@@ -143,4 +154,3 @@ private fun SuccessState(product: ProductDetailUi?) {
         }
     }
 }
-
