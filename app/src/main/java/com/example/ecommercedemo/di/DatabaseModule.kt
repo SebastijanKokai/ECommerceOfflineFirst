@@ -17,4 +17,8 @@ val databaseModule = module {
     single {
         get<AppDatabase>().productDao()
     }
+
+    single {
+        get<AppDatabase>().cartDao()
+    }
 }
