@@ -5,10 +5,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -21,23 +19,18 @@ import androidx.compose.ui.unit.dp
 fun SettingsScreen(themeViewModel: ThemeViewModel) {
     val isDarkMode by themeViewModel.isDarkMode.collectAsState()
 
-    Scaffold(
-        topBar = { TopAppBar(title = { Text("Settings") }) }
-    ) { padding ->
-        Row(
-            modifier = Modifier
-                .padding(padding)
-                .padding(16.dp)
-                .fillMaxSize(),
-            verticalAlignment = Alignment.Top,
-            horizontalArrangement = Arrangement.SpaceBetween,
-        ) {
-            Text(text = if (isDarkMode) "Dark Mode is ON" else "Dark Mode is OFF")
-            Switch(
-                checked = isDarkMode,
-                onCheckedChange = { themeViewModel.toggleDarkMode() }
-            )
-        }
+    Row(
+        modifier = Modifier
+            .padding(16.dp)
+            .fillMaxSize(),
+        verticalAlignment = Alignment.Top,
+        horizontalArrangement = Arrangement.SpaceBetween,
+    ) {
+        Text(text = if (isDarkMode) "Dark Mode is ON" else "Dark Mode is OFF")
+        Switch(
+            checked = isDarkMode,
+            onCheckedChange = { themeViewModel.toggleDarkMode() }
+        )
     }
 
 }

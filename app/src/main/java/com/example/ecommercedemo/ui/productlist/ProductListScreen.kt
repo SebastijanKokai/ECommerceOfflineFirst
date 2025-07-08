@@ -6,10 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -27,41 +24,27 @@ fun ProductListScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
-    ScaffoldWrapper {
-        when (uiState) {
-            UiState.Initial -> {
-                LoadingState()
-            }
-
-            UiState.Loading -> {
-                LoadingState()
-            }
-
-            UiState.Empty -> {
-                EmptyState()
-            }
-
-            is UiState.Error -> {
-                val message = (uiState as UiState.Error).message
-                ErrorState(message)
-            }
-
-            is UiState.Success<List<ProductListUi>> -> {
-                val products = (uiState as UiState.Success<List<ProductListUi>>).data
-                SuccessState(products)
-            }
+    when (uiState) {
+        UiState.Initial -> {
+            LoadingState()
         }
-    }
-}
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun ScaffoldWrapper(child: @Composable () -> Unit) {
-    Scaffold(
-        topBar = { TopAppBar(title = { Text("Products") }) },
-    ) { padding ->
-        Box(modifier = Modifier.padding(padding)) {
-            child()
+        UiState.Loading -> {
+            LoadingState()
+        }
+
+        UiState.Empty -> {
+            EmptyState()
+        }
+
+        is UiState.Error -> {
+            val message = (uiState as UiState.Error).message
+            ErrorState(message)
+        }
+
+        is UiState.Success<List<ProductListUi>> -> {
+            val products = (uiState as UiState.Success<List<ProductListUi>>).data
+            SuccessState(products)
         }
     }
 }
