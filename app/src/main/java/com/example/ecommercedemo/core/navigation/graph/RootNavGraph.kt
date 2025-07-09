@@ -9,6 +9,7 @@ import androidx.navigation.navArgument
 import com.example.ecommercedemo.core.navigation.AppRoute
 import com.example.ecommercedemo.core.navigation.bottomnav.HomeWithBottomNav
 import com.example.ecommercedemo.ui.cart.CartScreen
+import com.example.ecommercedemo.ui.cart.CheckoutScreen
 import com.example.ecommercedemo.ui.delivery.DeliveryScreen
 import com.example.ecommercedemo.ui.productdetail.ProductDetailScreen
 import com.example.ecommercedemo.ui.settings.ThemeViewModel
@@ -34,6 +35,9 @@ fun RootNavGraph(
         }
         composable(AppRoute.Cart.path) {
             CartScreen()
+        }
+        composable(AppRoute.Checkout.path) {
+            CheckoutScreen()
         }
         composable(AppRoute.Delivery.path) {
             DeliveryScreen()
