@@ -4,7 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.ecommercedemo.data.local.entity.ProductEntity
+import com.example.ecommercedemo.data.local.entity.product.ProductEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao

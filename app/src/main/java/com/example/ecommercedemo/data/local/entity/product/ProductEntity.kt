@@ -1,4 +1,4 @@
-package com.example.ecommercedemo.data.local.entity
+package com.example.ecommercedemo.data.local.entity.product
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

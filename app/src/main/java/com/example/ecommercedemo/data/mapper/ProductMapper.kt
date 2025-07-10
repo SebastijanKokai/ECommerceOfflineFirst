@@ -1,6 +1,6 @@
 package com.example.ecommercedemo.data.mapper
 
-import com.example.ecommercedemo.data.local.entity.ProductEntity
+import com.example.ecommercedemo.data.local.entity.product.ProductEntity
 import com.example.ecommercedemo.data.remote.model.ProductResponse
 import com.example.ecommercedemo.domain.model.Product
 import kotlinx.coroutines.flow.Flow

@@ -4,12 +4,11 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.example.ecommercedemo.data.local.dao.CartDao
 import com.example.ecommercedemo.data.local.dao.ProductDao
-import com.example.ecommercedemo.data.local.entity.CartEntity
-import com.example.ecommercedemo.data.local.entity.CartItemEntity
-import com.example.ecommercedemo.data.local.entity.ProductEntity
+import com.example.ecommercedemo.data.local.entity.cart.CartItemEntity
+import com.example.ecommercedemo.data.local.entity.product.ProductEntity
 
 @Database(
-    entities = [ProductEntity::class, CartEntity::class, CartItemEntity::class],
+    entities = [ProductEntity::class, CartItemEntity::class],
     version = 1
 )
 abstract class AppDatabase : RoomDatabase() {

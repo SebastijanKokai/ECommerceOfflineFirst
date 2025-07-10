@@ -1,0 +1,53 @@
+package com.example.ecommercedemo.ui.cart
+
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.ecommercedemo.domain.usecase.cart.GetCartItemsUseCase
+import com.example.ecommercedemo.domain.usecase.cart.InsertProductToCartUseCase
+import com.example.ecommercedemo.ui.mapper.toUiModel
+import com.example.ecommercedemo.ui.model.CartProductUi
+import com.example.ecommercedemo.ui.model.UiState
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.launch
+
+class CartViewModel(
+    private val getCartItemsUseCase: GetCartItemsUseCase,
+    private val createCartUseCase: InsertProductToCartUseCase,
+) : ViewModel() {
+
+    private val _uiState = MutableStateFlow<UiState<List<CartProductUi>>>(UiState.Initial)
+    val uiState = _uiState.asStateFlow()
+
+    init {
+        loadCartItems()
+    }
+
+    private fun loadCartItems() {
+        viewModelScope.launch {
+            getCartItemsUseCase.execute(Unit)
+                .map {
+                    it.toUiModel()
+                }.onStart {
+                    _uiState.value = UiState.Loading
+                }.catch {
+                    _uiState.value = UiState.Error(it.toString())
+                }.collect {
+                    _uiState.value = UiState.Success(it)
+                }
+        }
+    }
+
+    fun insertProductToCart(productId: Int, quantity: Int) {
+        viewModelScope.launch {
+            runCatching {
+                createCartUseCase.execute(Pair(productId, quantity))
+            }.onFailure {
+                // @TODO Handle error
+            }
+        }
+    }
+}

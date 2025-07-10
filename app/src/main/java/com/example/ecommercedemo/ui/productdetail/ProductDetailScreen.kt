@@ -3,10 +3,10 @@ package com.example.ecommercedemo.ui.productdetail
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -30,8 +30,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.example.ecommercedemo.core.navigation.AppRoute
-import com.example.ecommercedemo.core.navigation.LocalRootNavController
+import com.example.ecommercedemo.ui.cart.CartViewModel
 import com.example.ecommercedemo.ui.components.QuantityPicker
 import com.example.ecommercedemo.ui.model.ProductDetailUi
 import com.example.ecommercedemo.ui.model.UiState
@@ -42,16 +41,33 @@ import org.koin.core.parameter.parametersOf
 @Composable
 fun ProductDetailScreen(
     productId: Int?,
-    viewModel: ProductDetailViewModel = koinViewModel(parameters = {
+    productDetailViewModel: ProductDetailViewModel = koinViewModel(parameters = {
         parametersOf(
             productId
         )
-    })
+    }),
+    cartViewModel: CartViewModel = koinViewModel(),
 ) {
-    val uiState by viewModel.uiState.collectAsState()
+    val uiState by productDetailViewModel.uiState.collectAsState()
+    var quantity by remember { mutableIntStateOf(0) }
 
     Scaffold(
-        topBar = { TopAppBar(title = { Text("Product Detail") }) }
+        topBar = { TopAppBar(title = { Text("Product Detail") }) },
+        bottomBar = {
+            Button(
+                onClick = {
+                    productId?.let {
+                        cartViewModel.insertProductToCart(productId, quantity)
+                    }
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .navigationBarsPadding()
+                    .height(56.dp)
+            ) {
+                Text("Add to Cart")
+            }
+        }
     ) { padding ->
         Box(
             modifier = Modifier.padding(padding)
@@ -67,7 +83,7 @@ fun ProductDetailScreen(
                 UiState.Loading -> LoadingState()
                 is UiState.Success<ProductDetailUi?> -> {
                     val product = (uiState as UiState.Success<ProductDetailUi?>).data
-                    SuccessState(product)
+                    SuccessState(product, quantity, { quantity = it })
                 }
             }
         }
@@ -96,9 +112,11 @@ private fun EmptyState() {
 }
 
 @Composable
-private fun SuccessState(product: ProductDetailUi?) {
-    val navController = LocalRootNavController.current
-    var quantity by remember { mutableIntStateOf(0) }
+private fun SuccessState(
+    product: ProductDetailUi?,
+    quantity: Int,
+    onQuantityChange: (Int) -> Unit
+) {
 
     product?.let {
         Column(
@@ -135,22 +153,9 @@ private fun SuccessState(product: ProductDetailUi?) {
 
             QuantityPicker(
                 quantity = quantity,
-                onIncrease = { quantity++ },
-                onDecrease = { if (quantity > 0) quantity-- },
+                onIncrease = { onQuantityChange(quantity + 1) },
+                onDecrease = { if (quantity > 0) onQuantityChange(quantity - 1) },
             )
-
-            Spacer(modifier = Modifier.weight(1f))
-
-            Button(
-                onClick = {
-                    navController.navigate(AppRoute.Delivery.path)
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(56.dp)
-            ) {
-                Text("Add to Cart")
-            }
         }
     }
 }
