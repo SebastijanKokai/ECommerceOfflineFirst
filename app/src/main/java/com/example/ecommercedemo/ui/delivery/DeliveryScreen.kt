@@ -4,13 +4,21 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Schedule
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -75,37 +83,100 @@ fun DeliveryScreen(viewModel: DeliveryViewModel = koinViewModel()) {
         },
         snackbarHost = { SnackbarHost(snackbarHostState) },
     ) { padding ->
-        Box(
-            modifier = Modifier
-                .padding(padding)
-                .fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) {
-            val deliveryTime = remember { LocalDateTime.now().plusHours(2) }
-            val deliveryMillis = remember {
-                deliveryTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
-            }
-            val formattedTime = deliveryTime.formatTime("HH:mm")
+        DeliveryContent(
+            modifier = Modifier.padding(padding),
+            isLoading = isLoading.value,
+            onScheduleClick = { millis ->
+                viewModel.schedule(millis)
+            })
+    }
+}
 
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Text("Delivery at: $formattedTime")
-                Spacer(Modifier.height(24.dp))
-                Button(
-                    onClick = {
-                        viewModel.schedule(deliveryMillis)
-                    },
-                    enabled = !isLoading.value
-                ) {
-                    if (isLoading.value) {
-                        CircularProgressIndicator(
-                            modifier = Modifier.size(18.dp),
-                            strokeWidth = 2.dp,
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-                    }
-                    Text("Set Delivery Reminder")
-                }
-            }
+@Composable
+private fun DeliveryContent(
+    modifier: Modifier = Modifier,
+    isLoading: Boolean,
+    onScheduleClick: (Long) -> Unit
+) {
+    Box(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(24.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        val deliveryTime = remember { LocalDateTime.now().plusHours(2) }
+        val deliveryMillis = remember {
+            deliveryTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
+        }
+        val formattedTime = deliveryTime.formatTime("HH:mm")
+
+        DeliveryCard(
+            time = formattedTime,
+            isLoading = isLoading,
+            onClick = { onScheduleClick(deliveryMillis) }
+        )
+    }
+}
+
+@Composable
+private fun DeliveryCard(
+    time: String,
+    isLoading: Boolean,
+    onClick: () -> Unit
+) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        elevation = CardDefaults.cardElevation(8.dp),
+        shape = RoundedCornerShape(16.dp)
+    ) {
+        Column(
+            modifier = Modifier
+                .padding(24.dp)
+                .fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Icon(
+                imageVector = Icons.Default.Schedule,
+                contentDescription = null,
+                modifier = Modifier.size(48.dp)
+            )
+            Spacer(Modifier.height(16.dp))
+            Text(
+                text = "Your delivery will arrive at:",
+                style = MaterialTheme.typography.titleMedium
+            )
+            Text(
+                text = time,
+                style = MaterialTheme.typography.displaySmall
+            )
+            Spacer(Modifier.height(24.dp))
+            DeliveryButton(
+                isLoading = isLoading,
+                onClick = onClick
+            )
         }
     }
 }
+
+@Composable
+private fun DeliveryButton(
+    isLoading: Boolean,
+    onClick: () -> Unit
+) {
+    Button(
+        onClick = onClick,
+        enabled = !isLoading,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        if (isLoading) {
+            CircularProgressIndicator(
+                modifier = Modifier.size(18.dp),
+                strokeWidth = 2.dp,
+                color = MaterialTheme.colorScheme.onPrimary
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+        }
+        Text("Remind Me Before Delivery")
+    }
+}
+
