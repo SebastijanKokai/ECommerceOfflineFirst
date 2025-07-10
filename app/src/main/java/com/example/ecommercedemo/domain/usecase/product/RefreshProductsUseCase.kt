@@ -1,6 +1,7 @@
-package com.example.ecommercedemo.domain.usecase
+package com.example.ecommercedemo.domain.usecase.product
 
 import com.example.ecommercedemo.domain.repository.ProductRepository
+import com.example.ecommercedemo.domain.usecase.BaseUseCase
 
 class RefreshProductsUseCase(
     private val productRepository: ProductRepository

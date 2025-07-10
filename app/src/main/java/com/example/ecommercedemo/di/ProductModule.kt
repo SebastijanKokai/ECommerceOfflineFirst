@@ -2,9 +2,9 @@ package com.example.ecommercedemo.di
 
 import com.example.ecommercedemo.data.repository.ProductRepositoryImpl
 import com.example.ecommercedemo.domain.repository.ProductRepository
-import com.example.ecommercedemo.domain.usecase.GetProductDetailUseCase
-import com.example.ecommercedemo.domain.usecase.GetProductListUseCase
-import com.example.ecommercedemo.domain.usecase.RefreshProductsUseCase
+import com.example.ecommercedemo.domain.usecase.product.GetProductDetailUseCase
+import com.example.ecommercedemo.domain.usecase.product.GetProductListUseCase
+import com.example.ecommercedemo.domain.usecase.product.RefreshProductsUseCase
 import com.example.ecommercedemo.ui.productdetail.ProductDetailViewModel
 import com.example.ecommercedemo.ui.productlist.ProductListViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel

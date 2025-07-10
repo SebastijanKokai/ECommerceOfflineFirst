@@ -2,8 +2,8 @@ package com.example.ecommercedemo.ui.productlist
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.ecommercedemo.domain.usecase.GetProductListUseCase
-import com.example.ecommercedemo.domain.usecase.RefreshProductsUseCase
+import com.example.ecommercedemo.domain.usecase.product.GetProductListUseCase
+import com.example.ecommercedemo.domain.usecase.product.RefreshProductsUseCase
 import com.example.ecommercedemo.ui.mapper.toProductListUiModel
 import com.example.ecommercedemo.ui.productlist.model.ProductListUi
 import com.example.ecommercedemo.ui.shared.UiState

@@ -2,7 +2,7 @@ package com.example.ecommercedemo.ui.productdetail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.ecommercedemo.domain.usecase.GetProductDetailUseCase
+import com.example.ecommercedemo.domain.usecase.product.GetProductDetailUseCase
 import com.example.ecommercedemo.ui.mapper.toProductDetailUiModel
 import com.example.ecommercedemo.ui.productdetail.model.ProductDetailUi
 import com.example.ecommercedemo.ui.shared.UiState
