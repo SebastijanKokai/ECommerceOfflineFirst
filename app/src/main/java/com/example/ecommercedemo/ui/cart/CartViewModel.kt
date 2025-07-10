@@ -2,6 +2,7 @@ package com.example.ecommercedemo.ui.cart
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.ecommercedemo.domain.usecase.cart.ClearCartUseCase
 import com.example.ecommercedemo.domain.usecase.cart.GetCartItemsUseCase
 import com.example.ecommercedemo.domain.usecase.cart.InsertProductToCartUseCase
 import com.example.ecommercedemo.ui.cart.model.CartProductUi
@@ -17,6 +18,7 @@ import kotlinx.coroutines.launch
 class CartViewModel(
     private val getCartItemsUseCase: GetCartItemsUseCase,
     private val createCartUseCase: InsertProductToCartUseCase,
+    private val clearCartUseCase: ClearCartUseCase,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<UiState<List<CartProductUi>>>(UiState.Initial)
@@ -45,6 +47,16 @@ class CartViewModel(
         viewModelScope.launch {
             runCatching {
                 createCartUseCase.execute(Pair(productId, quantity))
+            }.onFailure {
+                // @TODO Handle error
+            }
+        }
+    }
+
+    fun clearCart() {
+        viewModelScope.launch {
+            runCatching {
+                clearCartUseCase.execute(Unit)
             }.onFailure {
                 // @TODO Handle error
             }

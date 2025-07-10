@@ -35,6 +35,7 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun CartScreen(viewModel: CartViewModel = koinViewModel()) {
+    val navController = LocalRootNavController.current
     val uiState by viewModel.uiState.collectAsState()
 
     when (uiState) {
@@ -65,7 +66,12 @@ fun CartScreen(viewModel: CartViewModel = koinViewModel()) {
 
         is UiState.Success -> {
             val items = (uiState as UiState.Success<List<CartProductUi>>).data
-            CartSuccessState(items)
+            CartSuccessState(
+                items = items,
+                onClearCartClick = { viewModel.clearCart() },
+                onCheckoutClick = {
+                    navController.navigate(AppRoute.Checkout.path)
+                })
         }
     }
 }
@@ -73,21 +79,29 @@ fun CartScreen(viewModel: CartViewModel = koinViewModel()) {
 @Composable
 fun CartSuccessState(
     items: List<CartProductUi>,
+    onClearCartClick: () -> Unit,
+    onCheckoutClick: () -> Unit,
 ) {
-    val navController = LocalRootNavController.current
-
     Scaffold(
         bottomBar = {
-            Button(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp)
-                    .navigationBarsPadding(),
-                onClick = {
-                    navController.navigate(AppRoute.Checkout.path)
+            Column {
+                Button(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    onClick = onClearCartClick
+                ) {
+                    Text("Clear Cart")
                 }
-            ) {
-                Text("Go to checkout")
+                Button(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp)
+                        .navigationBarsPadding(),
+                    onClick = onCheckoutClick
+                ) {
+                    Text("Go to checkout")
+                }
             }
         }
     ) { innerPadding ->

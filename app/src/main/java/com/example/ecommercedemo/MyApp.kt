@@ -1,6 +1,7 @@
 package com.example.ecommercedemo
 
 import android.app.Application
+import com.example.ecommercedemo.di.appModule
 import com.example.ecommercedemo.di.cartModule
 import com.example.ecommercedemo.di.dataStoreModule
 import com.example.ecommercedemo.di.databaseModule
@@ -17,8 +18,14 @@ class MyApp : Application() {
         startKoin {
             androidContext(this@MyApp)
             modules(
-                databaseModule, networkModule, dataStoreModule, themeModule, productModule,
-                deliverySchedulerModule, cartModule
+                appModule,
+                databaseModule,
+                networkModule,
+                dataStoreModule,
+                themeModule,
+                productModule,
+                deliverySchedulerModule,
+                cartModule
             )
         }
     }
