@@ -1,6 +1,6 @@
 # ECommerceOfflineFirst
 
-A e-commerce demo app built with **Jetpack Compose**, showcasing clean architecture, offline-first
+An e-commerce demo app built with **Jetpack Compose**, showcasing clean architecture, offline-first
 support, and adaptive UI for both phones and tablets.
 
 ## 📱 Features
@@ -41,5 +41,5 @@ support, and adaptive UI for both phones and tablets.
 
 ## 🚧 Status
 
-This app is for demonstration purposes. Some functionality like payment and authentication is mocked
+This app is for demonstration purposes. Some functionality like payment is mocked
 or not fully implemented.
