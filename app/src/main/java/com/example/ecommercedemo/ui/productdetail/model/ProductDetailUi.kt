@@ -1,4 +1,4 @@
-package com.example.ecommercedemo.ui.model
+package com.example.ecommercedemo.ui.productdetail.model
 
 data class ProductDetailUi(
     val id: Int,

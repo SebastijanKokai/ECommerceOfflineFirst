@@ -1,4 +1,4 @@
-package com.example.ecommercedemo.ui.model
+package com.example.ecommercedemo.ui.cart.model
 
 data class CartProductUi(
     val image: String,

@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.ecommercedemo.domain.usecase.GetProductDetailUseCase
 import com.example.ecommercedemo.ui.mapper.toProductDetailUiModel
-import com.example.ecommercedemo.ui.model.ProductDetailUi
-import com.example.ecommercedemo.ui.model.UiState
+import com.example.ecommercedemo.ui.productdetail.model.ProductDetailUi
+import com.example.ecommercedemo.ui.shared.UiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch

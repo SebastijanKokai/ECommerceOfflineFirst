@@ -1,4 +1,4 @@
-package com.example.ecommercedemo.ui.model
+package com.example.ecommercedemo.ui.shared
 
 sealed class PermissionEvent {
     object ShowSchedulePermissionDialog : PermissionEvent()

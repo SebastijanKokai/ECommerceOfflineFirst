@@ -4,9 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.ecommercedemo.domain.usecase.cart.GetCartItemsUseCase
 import com.example.ecommercedemo.domain.usecase.cart.InsertProductToCartUseCase
+import com.example.ecommercedemo.ui.cart.model.CartProductUi
 import com.example.ecommercedemo.ui.mapper.toUiModel
-import com.example.ecommercedemo.ui.model.CartProductUi
-import com.example.ecommercedemo.ui.model.UiState
+import com.example.ecommercedemo.ui.shared.UiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch

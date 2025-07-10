@@ -3,10 +3,10 @@ package com.example.ecommercedemo.ui.delivery
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.ecommercedemo.core.scheduler.DeliveryReminderScheduler
-import com.example.ecommercedemo.ui.model.PermissionEvent
-import com.example.ecommercedemo.ui.model.PermissionEvent.ShowNotificationPermissionDialog
-import com.example.ecommercedemo.ui.model.PermissionEvent.ShowSchedulePermissionDialog
-import com.example.ecommercedemo.ui.model.UiEvent
+import com.example.ecommercedemo.ui.shared.PermissionEvent
+import com.example.ecommercedemo.ui.shared.PermissionEvent.ShowNotificationPermissionDialog
+import com.example.ecommercedemo.ui.shared.PermissionEvent.ShowSchedulePermissionDialog
+import com.example.ecommercedemo.ui.shared.UiEvent
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow

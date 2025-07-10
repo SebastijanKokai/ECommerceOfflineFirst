@@ -1,4 +1,4 @@
-package com.example.ecommercedemo.ui.components
+package com.example.ecommercedemo.ui.shared.components
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ShoppingCart

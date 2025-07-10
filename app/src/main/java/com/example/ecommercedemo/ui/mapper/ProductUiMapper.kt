@@ -1,8 +1,8 @@
 package com.example.ecommercedemo.ui.mapper
 
 import com.example.ecommercedemo.domain.model.Product
-import com.example.ecommercedemo.ui.model.ProductDetailUi
-import com.example.ecommercedemo.ui.model.ProductListUi
+import com.example.ecommercedemo.ui.productdetail.model.ProductDetailUi
+import com.example.ecommercedemo.ui.productlist.model.ProductListUi
 import java.util.Locale
 
 

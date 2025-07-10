@@ -35,9 +35,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.ecommercedemo.core.components.PermissionDialog
 import com.example.ecommercedemo.core.extension.formatTime
-import com.example.ecommercedemo.ui.model.PermissionDialogData
 import com.example.ecommercedemo.ui.shared.HandlePermissionEvents
 import com.example.ecommercedemo.ui.shared.HandleScheduleEvents
+import com.example.ecommercedemo.ui.shared.model.PermissionDialogData
 import org.koin.androidx.compose.koinViewModel
 import java.time.LocalDateTime
 import java.time.ZoneId

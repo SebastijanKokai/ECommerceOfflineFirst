@@ -31,9 +31,9 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.ecommercedemo.ui.cart.CartViewModel
-import com.example.ecommercedemo.ui.components.QuantityPicker
-import com.example.ecommercedemo.ui.model.ProductDetailUi
-import com.example.ecommercedemo.ui.model.UiState
+import com.example.ecommercedemo.ui.productdetail.model.ProductDetailUi
+import com.example.ecommercedemo.ui.shared.UiState
+import com.example.ecommercedemo.ui.shared.components.QuantityPicker
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 

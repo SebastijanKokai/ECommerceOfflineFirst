@@ -5,8 +5,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalContext
 import com.example.ecommercedemo.core.extension.openAppNotificationSettings
 import com.example.ecommercedemo.core.extension.requestScheduleExactAlarmPermission
-import com.example.ecommercedemo.ui.model.PermissionDialogData
-import com.example.ecommercedemo.ui.model.PermissionEvent
+import com.example.ecommercedemo.ui.shared.model.PermissionDialogData
 import kotlinx.coroutines.flow.Flow
 
 @Composable

@@ -1,7 +1,7 @@
 package com.example.ecommercedemo.ui.mapper
 
 import com.example.ecommercedemo.data.local.entity.cart.CartItemWithProduct
-import com.example.ecommercedemo.ui.model.CartProductUi
+import com.example.ecommercedemo.ui.cart.model.CartProductUi
 
 fun List<CartItemWithProduct>.toUiModel(): List<CartProductUi> {
     return map { itemWithProduct ->

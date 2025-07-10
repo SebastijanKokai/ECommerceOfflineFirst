@@ -11,8 +11,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.example.ecommercedemo.core.navigation.AppRoute
 import com.example.ecommercedemo.core.navigation.graph.homeNavGraph
-import com.example.ecommercedemo.ui.components.CartButton
 import com.example.ecommercedemo.ui.settings.ThemeViewModel
+import com.example.ecommercedemo.ui.shared.components.CartButton
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

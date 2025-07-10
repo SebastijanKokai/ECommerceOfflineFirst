@@ -29,8 +29,8 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.ecommercedemo.core.navigation.AppRoute
 import com.example.ecommercedemo.core.navigation.LocalRootNavController
-import com.example.ecommercedemo.ui.model.CartProductUi
-import com.example.ecommercedemo.ui.model.UiState
+import com.example.ecommercedemo.ui.cart.model.CartProductUi
+import com.example.ecommercedemo.ui.shared.UiState
 import org.koin.androidx.compose.koinViewModel
 
 @Composable

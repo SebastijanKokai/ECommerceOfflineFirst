@@ -3,7 +3,6 @@ package com.example.ecommercedemo.ui.shared
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import com.example.ecommercedemo.ui.model.UiEvent
 import kotlinx.coroutines.flow.Flow
 
 @Composable

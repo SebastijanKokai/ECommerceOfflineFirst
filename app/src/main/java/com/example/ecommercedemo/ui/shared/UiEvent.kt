@@ -1,4 +1,4 @@
-package com.example.ecommercedemo.ui.model
+package com.example.ecommercedemo.ui.shared
 
 sealed class UiEvent {
     class ShowSuccess(val message: String) : UiEvent()

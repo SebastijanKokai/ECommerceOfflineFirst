@@ -35,7 +35,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.ecommercedemo.core.navigation.AppRoute
 import com.example.ecommercedemo.core.navigation.LocalRootNavController
-import com.example.ecommercedemo.ui.model.CartProductUi
+import com.example.ecommercedemo.ui.cart.model.CartProductUi
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

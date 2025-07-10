@@ -5,8 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.ecommercedemo.domain.usecase.GetProductListUseCase
 import com.example.ecommercedemo.domain.usecase.RefreshProductsUseCase
 import com.example.ecommercedemo.ui.mapper.toProductListUiModel
-import com.example.ecommercedemo.ui.model.ProductListUi
-import com.example.ecommercedemo.ui.model.UiState
+import com.example.ecommercedemo.ui.productlist.model.ProductListUi
+import com.example.ecommercedemo.ui.shared.UiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch

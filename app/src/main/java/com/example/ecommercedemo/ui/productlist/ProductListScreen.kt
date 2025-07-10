@@ -18,8 +18,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.ecommercedemo.core.navigation.LocalRootNavController
-import com.example.ecommercedemo.ui.model.ProductListUi
-import com.example.ecommercedemo.ui.model.UiState
+import com.example.ecommercedemo.ui.productlist.model.ProductListUi
+import com.example.ecommercedemo.ui.shared.UiState
 import org.koin.androidx.compose.koinViewModel
 
 

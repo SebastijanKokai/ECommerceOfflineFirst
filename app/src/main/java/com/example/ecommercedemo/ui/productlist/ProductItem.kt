@@ -22,7 +22,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
-import com.example.ecommercedemo.ui.model.ProductListUi
+import com.example.ecommercedemo.ui.productlist.model.ProductListUi
 
 @Composable
 fun ProductItem(product: ProductListUi, onClick: () -> Unit) {

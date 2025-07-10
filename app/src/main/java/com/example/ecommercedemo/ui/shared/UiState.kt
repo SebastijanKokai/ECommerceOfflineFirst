@@ -1,4 +1,4 @@
-package com.example.ecommercedemo.ui.model
+package com.example.ecommercedemo.ui.shared
 
 sealed class UiState<out T> {
     data object Initial : UiState<Nothing>()
