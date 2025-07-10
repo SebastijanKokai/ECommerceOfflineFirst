@@ -25,18 +25,19 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import com.example.ecommercedemo.core.components.PermissionDialog
 import com.example.ecommercedemo.core.extension.formatTime
-import com.example.ecommercedemo.core.extension.openAppNotificationSettings
-import com.example.ecommercedemo.core.extension.requestScheduleExactAlarmPermission
-import com.example.ecommercedemo.ui.model.PermissionEvent
-import com.example.ecommercedemo.ui.model.UiEvent
+import com.example.ecommercedemo.ui.model.PermissionDialogData
+import com.example.ecommercedemo.ui.shared.HandlePermissionEvents
+import com.example.ecommercedemo.ui.shared.HandleScheduleEvents
 import org.koin.androidx.compose.koinViewModel
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -44,38 +45,21 @@ import java.time.ZoneId
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DeliveryScreen(viewModel: DeliveryViewModel = koinViewModel()) {
-    val context = LocalContext.current
     val isLoading = viewModel.isLoading.collectAsState()
     val snackbarHostState = remember { SnackbarHostState() }
+    var permissionDialogData by remember { mutableStateOf<PermissionDialogData?>(null) }
 
-    LaunchedEffect(Unit) {
-        viewModel.permissionEvent.collect { event ->
-            when (event) {
-                PermissionEvent.ShowNotificationPermissionDialog -> {
-                    context.openAppNotificationSettings()
-                }
-
-                PermissionEvent.ShowSchedulePermissionDialog -> {
-                    context.requestScheduleExactAlarmPermission()
-                }
-            }
+    HandlePermissionEvents(
+        permissionEventFlow = viewModel.permissionEvent,
+        onDialogRequested = { dialogData ->
+            permissionDialogData = dialogData
         }
-    }
+    )
 
-    LaunchedEffect(Unit) {
-        viewModel.scheduleEvent.collect { event ->
-            when (event) {
-                is UiEvent.ShowSuccess -> {
-                    snackbarHostState.showSnackbar(event.message)
-                }
-
-                is UiEvent.ShowError -> {
-                    snackbarHostState.showSnackbar(event.message)
-                }
-            }
-
-        }
-    }
+    HandleScheduleEvents(
+        scheduleEventFlow = viewModel.scheduleEvent,
+        snackbarHostState = snackbarHostState,
+    )
 
     Scaffold(
         topBar = {
@@ -90,7 +74,21 @@ fun DeliveryScreen(viewModel: DeliveryViewModel = koinViewModel()) {
                 viewModel.schedule(millis)
             })
     }
+
+    permissionDialogData?.let { data ->
+        PermissionDialog(
+            message = data.message,
+            onConfirm = {
+                data.onConfirm()
+                permissionDialogData = null
+            },
+            onDismiss = {
+                permissionDialogData = null
+            }
+        )
+    }
 }
+
 
 @Composable
 private fun DeliveryContent(
