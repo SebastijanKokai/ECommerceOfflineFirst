@@ -11,7 +11,13 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val productModule = module {
-    single<ProductRepository> { ProductRepositoryImpl(productApi = get(), productDao = get()) }
+    single<ProductRepository> {
+        ProductRepositoryImpl(
+            dispatcherProvider = get(),
+            productApi = get(),
+            productDao = get()
+        )
+    }
 
     factory { GetProductListUseCase(get()) }
     factory { GetProductDetailUseCase(get()) }

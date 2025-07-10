@@ -28,8 +28,10 @@ class ProductDetailViewModel(
 
             runCatching {
                 productId?.let {
-                    getProductDetailUseCase.execute(it)?.toProductDetailUiModel()
+                    getProductDetailUseCase.execute(it)
                 }
+            }.map { product ->
+                product?.toProductDetailUiModel()
             }.onFailure {
                 _uiState.value = UiState.Error(it.message ?: "Unknown Error")
             }.onSuccess { productUi ->

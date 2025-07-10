@@ -6,6 +6,7 @@ import com.example.ecommercedemo.data.local.entity.cart.CartItemEntity
 import com.example.ecommercedemo.data.local.entity.cart.CartItemWithProduct
 import com.example.ecommercedemo.domain.repository.CartRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
 
 // Uses only local data source, because the fake API isn't working as expected
@@ -16,11 +17,11 @@ class CartRepositoryImpl(
     // Get userId from DataStore - Auth not implemented for this project
     val userId = 1
 
-    override fun getCartProducts(): Flow<List<CartItemWithProduct>> {
-        return cartDao.getCartItemsWithProduct(userId)
-    }
+    override fun getCartProducts(): Flow<List<CartItemWithProduct>> =
+        cartDao.getCartItemsWithProduct(userId).flowOn(dispatcherProvider.io)
 
-    override suspend fun insertProduct(productId: Int, quantity: Int) {
+
+    override suspend fun insertProduct(productId: Int, quantity: Int) =
         withContext(dispatcherProvider.io) {
             val cartItem = cartDao.getCartItem(userId, productId).firstOrNull()
 
@@ -37,19 +38,18 @@ class CartRepositoryImpl(
                 val updatedItem = cartItem.copy(quantity = cartItem.quantity + quantity)
                 cartDao.insertCartItem(updatedItem)
             }
-
         }
-    }
 
-    override suspend fun removeCartItem(productId: Int) {
+
+    override suspend fun removeCartItem(productId: Int) =
         withContext(dispatcherProvider.io) {
             cartDao.removeCartItem(userId, productId)
         }
-    }
 
-    override suspend fun clearCart() {
+
+    override suspend fun clearCart() =
         withContext(dispatcherProvider.io) {
             cartDao.clearCart(userId)
         }
-    }
+
 }
