@@ -5,6 +5,7 @@ import com.example.ecommercedemo.domain.repository.CartRepository
 import com.example.ecommercedemo.domain.usecase.cart.ClearCartUseCase
 import com.example.ecommercedemo.domain.usecase.cart.GetCartItemsUseCase
 import com.example.ecommercedemo.domain.usecase.cart.InsertProductToCartUseCase
+import com.example.ecommercedemo.domain.usecase.cart.RemoveCartItemUseCase
 import com.example.ecommercedemo.ui.cart.CartViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -20,12 +21,14 @@ val cartModule = module {
     factory { GetCartItemsUseCase(get()) }
     factory { InsertProductToCartUseCase(get()) }
     factory { ClearCartUseCase(get()) }
+    factory { RemoveCartItemUseCase(get()) }
 
     viewModel {
         CartViewModel(
             getCartItemsUseCase = get(),
             createCartUseCase = get(),
             clearCartUseCase = get(),
+            removeCartItemUseCase = get(),
         )
     }
 }

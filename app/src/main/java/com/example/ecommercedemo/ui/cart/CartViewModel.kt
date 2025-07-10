@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.ecommercedemo.domain.usecase.cart.ClearCartUseCase
 import com.example.ecommercedemo.domain.usecase.cart.GetCartItemsUseCase
 import com.example.ecommercedemo.domain.usecase.cart.InsertProductToCartUseCase
+import com.example.ecommercedemo.domain.usecase.cart.RemoveCartItemUseCase
 import com.example.ecommercedemo.ui.cart.model.CartProductUi
 import com.example.ecommercedemo.ui.mapper.toUiModel
 import com.example.ecommercedemo.ui.shared.UiState
@@ -19,6 +20,7 @@ class CartViewModel(
     private val getCartItemsUseCase: GetCartItemsUseCase,
     private val createCartUseCase: InsertProductToCartUseCase,
     private val clearCartUseCase: ClearCartUseCase,
+    private val removeCartItemUseCase: RemoveCartItemUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<UiState<List<CartProductUi>>>(UiState.Initial)
@@ -47,6 +49,16 @@ class CartViewModel(
         viewModelScope.launch {
             runCatching {
                 createCartUseCase.execute(Pair(productId, quantity))
+            }.onFailure {
+                // @TODO Handle error
+            }
+        }
+    }
+
+    fun removeCartItem(productId: Int) {
+        viewModelScope.launch {
+            runCatching {
+                removeCartItemUseCase.execute(productId)
             }.onFailure {
                 // @TODO Handle error
             }

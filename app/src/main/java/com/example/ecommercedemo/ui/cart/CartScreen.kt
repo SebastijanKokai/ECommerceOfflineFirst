@@ -12,10 +12,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -71,6 +75,9 @@ fun CartScreen(viewModel: CartViewModel = koinViewModel()) {
                 onClearCartClick = { viewModel.clearCart() },
                 onCheckoutClick = {
                     navController.navigate(AppRoute.Checkout.path)
+                },
+                onRemoveItemClick = { id ->
+                    viewModel.removeCartItem(id)
                 })
         }
     }
@@ -81,6 +88,7 @@ fun CartSuccessState(
     items: List<CartProductUi>,
     onClearCartClick: () -> Unit,
     onCheckoutClick: () -> Unit,
+    onRemoveItemClick: (Int) -> Unit,
 ) {
     Scaffold(
         bottomBar = {
@@ -114,14 +122,17 @@ fun CartSuccessState(
         ) {
             items(items.count()) { index ->
                 val product = items[index]
-                CartProductItem(product)
+                CartProductItem(product, onRemove = { onRemoveItemClick(product.id) })
             }
         }
     }
 }
 
 @Composable
-fun CartProductItem(product: CartProductUi) {
+fun CartProductItem(
+    product: CartProductUi,
+    onRemove: () -> Unit
+) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
@@ -142,6 +153,10 @@ fun CartProductItem(product: CartProductUi) {
                 Text("€${product.price}", style = MaterialTheme.typography.bodySmall)
                 Text("Quantity: ${product.quantity}", style = MaterialTheme.typography.bodySmall)
                 Text("Total: €${product.totalPrice}", style = MaterialTheme.typography.bodyMedium)
+            }
+
+            IconButton(onClick = onRemove) {
+                Icon(Icons.Default.Delete, contentDescription = "Remove item")
             }
         }
     }

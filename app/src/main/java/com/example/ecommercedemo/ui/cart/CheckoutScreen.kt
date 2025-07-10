@@ -44,8 +44,8 @@ fun CheckoutScreen(
     val navController = LocalRootNavController.current
 
     val mockItems = listOf(
-        CartProductUi("https://via.placeholder.com/150", "Milk", 2.99, 2, 5.98),
-        CartProductUi("https://via.placeholder.com/150", "Bread", 1.49, 1, 1.49)
+        CartProductUi(1, "https://via.placeholder.com/150", "Milk", 2.99, 2, 5.98),
+        CartProductUi(2, "https://via.placeholder.com/150", "Bread", 1.49, 1, 1.49)
     )
 
     var selectedPaymentMethod: String by remember { mutableStateOf("Card") }

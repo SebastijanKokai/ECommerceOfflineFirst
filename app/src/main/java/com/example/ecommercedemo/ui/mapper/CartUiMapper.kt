@@ -9,6 +9,7 @@ fun List<CartItemWithProduct>.toUiModel(): List<CartProductUi> {
         val cartItem = itemWithProduct.cartItem
 
         CartProductUi(
+            id = product.id,
             image = product.image,
             name = product.title,
             price = product.price,

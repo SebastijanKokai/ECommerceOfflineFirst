@@ -41,6 +41,12 @@ class CartRepositoryImpl(
         }
     }
 
+    override suspend fun removeCartItem(productId: Int) {
+        withContext(dispatcherProvider.io) {
+            cartDao.removeCartItem(userId, productId)
+        }
+    }
+
     override suspend fun clearCart() {
         withContext(dispatcherProvider.io) {
             cartDao.clearCart(userId)
