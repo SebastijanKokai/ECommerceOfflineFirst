@@ -2,12 +2,17 @@ package com.example.ecommercedemo.ui.productdetail
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -49,21 +54,22 @@ fun ProductDetailScreen(
     cartViewModel: CartViewModel = koinViewModel(),
 ) {
     val uiState by productDetailViewModel.uiState.collectAsState()
-    var quantity by remember { mutableIntStateOf(0) }
+    var quantity by remember { mutableIntStateOf(1) }
 
     Scaffold(
         topBar = { TopAppBar(title = { Text("Product Detail") }) },
         bottomBar = {
             Button(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .navigationBarsPadding()
+                    .padding(bottom = 16.dp)
+                    .height(56.dp),
                 onClick = {
                     productId?.let {
                         cartViewModel.insertProductToCart(productId, quantity)
                     }
                 },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .navigationBarsPadding()
-                    .height(56.dp)
             ) {
                 Text("Add to Cart")
             }
@@ -117,7 +123,25 @@ private fun SuccessState(
     quantity: Int,
     onQuantityChange: (Int) -> Unit
 ) {
+    BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
+        val isTablet = this.maxWidth > 600.dp
 
+        if (isTablet) {
+            TabletProductDetailContent(product, quantity, onQuantityChange)
+        } else {
+            PhoneProductDetailContent(product, quantity, onQuantityChange)
+        }
+    }
+
+
+}
+
+@Composable
+fun PhoneProductDetailContent(
+    product: ProductDetailUi?,
+    quantity: Int,
+    onQuantityChange: (Int) -> Unit
+) {
     product?.let {
         Column(
             modifier = Modifier
@@ -154,8 +178,58 @@ private fun SuccessState(
             QuantityPicker(
                 quantity = quantity,
                 onIncrease = { onQuantityChange(quantity + 1) },
-                onDecrease = { if (quantity > 0) onQuantityChange(quantity - 1) },
+                onDecrease = { if (quantity > 1) onQuantityChange(quantity - 1) },
             )
         }
     }
 }
+
+@Composable
+fun TabletProductDetailContent(
+    product: ProductDetailUi?,
+    quantity: Int,
+    onQuantityChange: (Int) -> Unit
+) {
+    product?.let {
+        Row(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(24.dp)
+        ) {
+            AsyncImage(
+                model = it.image,
+                contentDescription = it.name,
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxHeight()
+                    .clip(RoundedCornerShape(16.dp)),
+                contentScale = ContentScale.Fit
+            )
+
+            Spacer(modifier = Modifier.width(24.dp))
+
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                Text(text = it.name, style = MaterialTheme.typography.headlineMedium)
+                Text(text = "Category: ${it.category}", style = MaterialTheme.typography.labelLarge)
+                Text(
+                    text = "Price: €${it.price}",
+                    style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.primary
+                )
+                Text(text = it.description, style = MaterialTheme.typography.bodyLarge)
+
+                QuantityPicker(
+                    quantity = quantity,
+                    onIncrease = { onQuantityChange(quantity + 1) },
+                    onDecrease = { if (quantity > 1) onQuantityChange(quantity - 1) },
+                )
+            }
+        }
+    }
+}
+
