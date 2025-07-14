@@ -2,6 +2,7 @@ package com.example.ecommercedemo.ui.delivery
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.ecommercedemo.core.extension.runCatchingCancellable
 import com.example.ecommercedemo.core.scheduler.DeliveryReminderScheduler
 import com.example.ecommercedemo.ui.shared.PermissionEvent
 import com.example.ecommercedemo.ui.shared.PermissionEvent.ShowNotificationPermissionDialog
@@ -40,7 +41,7 @@ class DeliveryViewModel(
 
             _isLoading.value = true
 
-            runCatching {
+            runCatchingCancellable {
                 scheduler.scheduleReminder(deliveryMillis)
             }.onSuccess {
                 _scheduleEvent.emit(UiEvent.ShowSuccess("Delivery scheduled!"))

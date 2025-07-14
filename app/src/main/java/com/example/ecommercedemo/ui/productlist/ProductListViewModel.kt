@@ -2,6 +2,7 @@ package com.example.ecommercedemo.ui.productlist
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.ecommercedemo.core.extension.runCatchingCancellable
 import com.example.ecommercedemo.domain.usecase.product.GetProductListUseCase
 import com.example.ecommercedemo.domain.usecase.product.RefreshProductsUseCase
 import com.example.ecommercedemo.ui.mapper.toProductListUiModel
@@ -44,7 +45,7 @@ class ProductListViewModel(
 
     fun refreshProducts() {
         viewModelScope.launch {
-            runCatching {
+            runCatchingCancellable {
                 refreshProductsUseCase.execute(Unit)
             }.onFailure { e ->
                 // @TODO Implement Error Logging

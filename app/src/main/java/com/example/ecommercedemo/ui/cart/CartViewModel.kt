@@ -2,6 +2,7 @@ package com.example.ecommercedemo.ui.cart
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.ecommercedemo.core.extension.runCatchingCancellable
 import com.example.ecommercedemo.domain.usecase.cart.ClearCartUseCase
 import com.example.ecommercedemo.domain.usecase.cart.GetCartItemsUseCase
 import com.example.ecommercedemo.domain.usecase.cart.InsertProductToCartUseCase
@@ -47,7 +48,7 @@ class CartViewModel(
 
     fun insertProductToCart(productId: Int, quantity: Int) {
         viewModelScope.launch {
-            runCatching {
+            runCatchingCancellable {
                 createCartUseCase.execute(Pair(productId, quantity))
             }.onFailure {
                 // @TODO Handle error
@@ -57,7 +58,7 @@ class CartViewModel(
 
     fun removeCartItem(productId: Int) {
         viewModelScope.launch {
-            runCatching {
+            runCatchingCancellable {
                 removeCartItemUseCase.execute(productId)
             }.onFailure {
                 // @TODO Handle error
@@ -67,7 +68,7 @@ class CartViewModel(
 
     fun clearCart() {
         viewModelScope.launch {
-            runCatching {
+            runCatchingCancellable {
                 clearCartUseCase.execute(Unit)
             }.onFailure {
                 // @TODO Handle error
