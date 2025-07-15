@@ -41,7 +41,11 @@ class CartViewModel(
                 }.catch {
                     _uiState.value = UiState.Error(it.toString())
                 }.collect {
-                    _uiState.value = UiState.Success(it)
+                    if (it.isEmpty()) {
+                        _uiState.value = UiState.Empty
+                    } else {
+                        _uiState.value = UiState.Success(it)
+                    }
                 }
         }
     }
