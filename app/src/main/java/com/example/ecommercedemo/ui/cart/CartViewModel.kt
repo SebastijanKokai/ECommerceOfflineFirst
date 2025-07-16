@@ -27,11 +27,7 @@ class CartViewModel(
     private val _uiState = MutableStateFlow<UiState<List<CartProductUi>>>(UiState.Initial)
     val uiState = _uiState.asStateFlow()
 
-    init {
-        loadCartItems()
-    }
-
-    private fun loadCartItems() {
+    fun loadCartItems() {
         viewModelScope.launch {
             getCartItemsUseCase.execute(Unit)
                 .map {
