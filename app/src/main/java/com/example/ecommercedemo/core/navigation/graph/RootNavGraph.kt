@@ -24,13 +24,14 @@ fun RootNavGraph(
         startDestination = AppRoute.Home.path,
     ) {
         composable(AppRoute.Home.path) {
-            HomeWithBottomNav(themeViewModel)
+            HomeWithBottomNav(rootNavController = navController, themeViewModel)
         }
         composable(
             AppRoute.ProductDetail.path,
             arguments = listOf(navArgument("productId") { type = NavType.IntType })
         ) { navBackStackEntry ->
-            val productId = navBackStackEntry.arguments?.getInt("productId") ?: -1
+            val productId =
+                navBackStackEntry.arguments?.getInt(AppRoute.ProductDetail.ARG_PRODUCT_ID) ?: -1
             ProductDetailScreen(productId = productId)
         }
         composable(AppRoute.Cart.path) {

@@ -25,9 +25,9 @@ import coil.compose.rememberAsyncImagePainter
 import com.example.ecommercedemo.ui.productlist.model.ProductListUi
 
 @Composable
-fun ProductItem(product: ProductListUi, onClick: () -> Unit) {
+fun ProductItem(modifier: Modifier, product: ProductListUi, onClick: () -> Unit) {
     Card(
-        modifier = Modifier
+        modifier = modifier
             .padding(8.dp)
             .clickable { onClick() },
         elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),

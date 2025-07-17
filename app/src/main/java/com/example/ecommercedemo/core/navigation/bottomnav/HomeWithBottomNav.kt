@@ -7,6 +7,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.example.ecommercedemo.core.navigation.AppRoute
@@ -17,6 +18,7 @@ import com.example.ecommercedemo.ui.shared.components.CartButton
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeWithBottomNav(
+    rootNavController: NavHostController,
     themeViewModel: ThemeViewModel
 ) {
     val bottomNavController = rememberNavController()
@@ -40,7 +42,7 @@ fun HomeWithBottomNav(
             startDestination = AppRoute.ProductList.path,
             modifier = Modifier.padding(innerPadding)
         ) {
-            homeNavGraph(themeViewModel)
+            homeNavGraph(rootNavController, themeViewModel)
         }
     }
 }

@@ -16,8 +16,10 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
-import com.example.ecommercedemo.core.navigation.LocalRootNavController
+import androidx.navigation.NavController
+import com.example.ecommercedemo.core.navigation.AppRoute
 import com.example.ecommercedemo.ui.productlist.model.ProductListUi
 import com.example.ecommercedemo.ui.shared.UiState
 import org.koin.androidx.compose.koinViewModel
@@ -25,6 +27,7 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun ProductListScreen(
+    navController: NavController,
     viewModel: ProductListViewModel = koinViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -49,14 +52,18 @@ fun ProductListScreen(
 
         is UiState.Success<List<ProductListUi>> -> {
             val products = (uiState as UiState.Success<List<ProductListUi>>).data
-            SuccessState(products)
+            ProductListContent(products, onClick = { id ->
+                navController.navigate(AppRoute.ProductDetail.createRoute(id))
+            })
         }
     }
 }
 
 @Composable
 private fun LoadingState() {
-    Box(modifier = Modifier.fillMaxSize()) {
+    Box(
+        modifier = Modifier.fillMaxSize()
+    ) {
         CircularProgressIndicator(Modifier.align(Alignment.Center))
     }
 }
@@ -76,22 +83,20 @@ private fun EmptyState() {
 }
 
 @Composable
-private fun SuccessState(products: List<ProductListUi>) {
+fun ProductListContent(products: List<ProductListUi>, onClick: (Int) -> Unit) {
     BoxWithConstraints(modifier = Modifier.fillMaxWidth()) {
         val isTablet = this.maxWidth > 600.dp
 
         if (isTablet) {
-            TabletProductList(products)
+            TabletProductList(products, onClick)
         } else {
-            PhoneProductList(products)
+            PhoneProductList(products, onClick)
         }
     }
 }
 
 @Composable
-private fun PhoneProductList(products: List<ProductListUi>) {
-    val navController = LocalRootNavController.current
-
+fun PhoneProductList(products: List<ProductListUi>, onClick: (Int) -> Unit) {
     LazyColumn(
         modifier = Modifier
             .padding(16.dp)
@@ -100,17 +105,18 @@ private fun PhoneProductList(products: List<ProductListUi>) {
     ) {
         items(products.count()) { index ->
             val product = products[index]
-            ProductItem(product = product) {
-                navController.navigate("productDetail/${product.id}")
+            ProductItem(
+                modifier = Modifier.testTag("productItem_${product.id}"),
+                product = product
+            ) {
+                onClick(product.id)
             }
         }
     }
 }
 
 @Composable
-private fun TabletProductList(products: List<ProductListUi>) {
-    val navController = LocalRootNavController.current
-
+private fun TabletProductList(products: List<ProductListUi>, onClick: (Int) -> Unit) {
     LazyVerticalGrid(
         columns = GridCells.Adaptive(minSize = 200.dp),
         modifier = Modifier
@@ -121,9 +127,13 @@ private fun TabletProductList(products: List<ProductListUi>) {
     ) {
         items(products.count()) { index ->
             val product = products[index]
-            ProductItem(product = product) {
-                navController.navigate("productDetail/${product.id}")
-            }
+            ProductItem(
+                modifier = Modifier.testTag("productItem_${product.id}"),
+                product = product,
+                onClick = {
+                    onClick(product.id)
+                },
+            )
         }
     }
 }
