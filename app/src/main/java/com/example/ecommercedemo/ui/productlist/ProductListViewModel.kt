@@ -23,12 +23,12 @@ class ProductListViewModel(
     private val _uiState = MutableStateFlow<UiState<List<ProductListUi>>>(UiState.Initial)
     val uiState: StateFlow<UiState<List<ProductListUi>>> = _uiState
 
-    init {
+    fun start() {
         loadProducts()
         refreshProducts()
     }
 
-    private fun loadProducts() {
+    fun loadProducts() {
         viewModelScope.launch {
             getProductListUseCase.execute(Unit)
                 .map { products -> products.toProductListUiModel() }

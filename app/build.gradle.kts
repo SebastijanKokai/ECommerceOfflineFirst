@@ -8,7 +8,7 @@ android {
     namespace = "com.example.ecommercedemo"
     compileSdk = 35
 
-    testBuildType = "debug"
+    testBuildType = "release"
 
     defaultConfig {
         applicationId = "com.example.ecommercedemo"
@@ -80,6 +80,8 @@ dependencies {
     implementation(libs.material.icons.extended)
     ksp(libs.room.compiler)
     testImplementation(libs.junit)
+    testImplementation(libs.mockk)
+    testImplementation(libs.coroutines.test)
     testImplementation(libs.robolectric)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
