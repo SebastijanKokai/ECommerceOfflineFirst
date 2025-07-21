@@ -20,6 +20,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.ecommercedemo.core.navigation.AppRoute
+import com.example.ecommercedemo.core.testing.TestTags
 import com.example.ecommercedemo.ui.productlist.model.ProductListUi
 import com.example.ecommercedemo.ui.shared.UiState
 import org.koin.androidx.compose.koinViewModel
@@ -99,6 +100,7 @@ fun ProductListContent(products: List<ProductListUi>, onClick: (Int) -> Unit) {
 fun PhoneProductList(products: List<ProductListUi>, onClick: (Int) -> Unit) {
     LazyColumn(
         modifier = Modifier
+            .testTag(TestTags.PHONE_PRODUCT_LIST)
             .padding(16.dp)
             .fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(12.dp)
@@ -106,7 +108,6 @@ fun PhoneProductList(products: List<ProductListUi>, onClick: (Int) -> Unit) {
         items(products.count()) { index ->
             val product = products[index]
             ProductItem(
-                modifier = Modifier.testTag("productItem_${product.id}"),
                 product = product
             ) {
                 onClick(product.id)
@@ -116,10 +117,11 @@ fun PhoneProductList(products: List<ProductListUi>, onClick: (Int) -> Unit) {
 }
 
 @Composable
-private fun TabletProductList(products: List<ProductListUi>, onClick: (Int) -> Unit) {
+fun TabletProductList(products: List<ProductListUi>, onClick: (Int) -> Unit) {
     LazyVerticalGrid(
         columns = GridCells.Adaptive(minSize = 200.dp),
         modifier = Modifier
+            .testTag(TestTags.TABLET_PRODUCT_LIST)
             .padding(16.dp)
             .fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(12.dp),
@@ -128,7 +130,6 @@ private fun TabletProductList(products: List<ProductListUi>, onClick: (Int) -> U
         items(products.count()) { index ->
             val product = products[index]
             ProductItem(
-                modifier = Modifier.testTag("productItem_${product.id}"),
                 product = product,
                 onClick = {
                     onClick(product.id)

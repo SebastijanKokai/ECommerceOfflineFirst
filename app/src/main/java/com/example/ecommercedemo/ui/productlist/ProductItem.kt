@@ -19,15 +19,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
+import com.example.ecommercedemo.core.testing.TestTags
 import com.example.ecommercedemo.ui.productlist.model.ProductListUi
 
 @Composable
-fun ProductItem(modifier: Modifier, product: ProductListUi, onClick: () -> Unit) {
+fun ProductItem(product: ProductListUi, onClick: () -> Unit) {
     Card(
-        modifier = modifier
+        modifier = Modifier
+            .testTag("${TestTags.PRODUCT_ITEM}${product.id}")
             .padding(8.dp)
             .clickable { onClick() },
         elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
