@@ -13,6 +13,7 @@ import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
@@ -57,6 +58,21 @@ class ProductListViewModelTest {
             assert(awaitItem() is UiState.Initial)
             assert(awaitItem() is UiState.Loading)
             assert(awaitItem() is UiState.Success)
+        }
+    }
+
+    @Test
+    fun `should emit loading then error when use case throws an exception`() = runTest {
+        coEvery { getProductListUseCase.execute(Unit) } returns flow {
+            throw Exception()
+        }
+
+        sut.uiState.test {
+            sut.loadProducts()
+
+            assert(awaitItem() is UiState.Initial)
+            assert(awaitItem() is UiState.Loading)
+            assert(awaitItem() is UiState.Error)
         }
     }
 }
