@@ -1,11 +1,11 @@
 package com.example.ecommercedemo.ui.productdetail
 
 import app.cash.turbine.test
-import com.example.ecommercedemo.dispatcher.TestDispatcherProvider
-import com.example.ecommercedemo.domain.model.Product
 import com.example.ecommercedemo.domain.usecase.product.GetProductDetailUseCase
 import com.example.ecommercedemo.ui.mapper.toProductDetailUiModel
 import com.example.ecommercedemo.ui.shared.UiState
+import com.example.ecommercedemo.utils.TestDispatcherProvider
+import com.example.ecommercedemo.utils.getMockedProduct
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
@@ -42,14 +42,7 @@ class ProductDetailViewModelTest {
 
     @Test
     fun `should emit loading then success when use case returns a valid product`() = runTest {
-        val mockedProduct = Product(
-            id = 1,
-            title = "Mocked Product",
-            price = 10.0,
-            description = "A mocked product for testing",
-            category = "mock",
-            image = ""
-        )
+        val mockedProduct = getMockedProduct()
 
         coEvery { mockGetProductDetailUseCase.execute(productId) } returns mockedProduct
 

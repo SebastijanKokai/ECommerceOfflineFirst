@@ -3,12 +3,12 @@
 package com.example.ecommercedemo.ui.productlist
 
 import app.cash.turbine.test
-import com.example.ecommercedemo.dispatcher.TestDispatcherProvider
-import com.example.ecommercedemo.domain.model.Product
 import com.example.ecommercedemo.domain.usecase.product.GetProductListUseCase
 import com.example.ecommercedemo.domain.usecase.product.RefreshProductsUseCase
 import com.example.ecommercedemo.ui.mapper.toProductListUiModel
 import com.example.ecommercedemo.ui.shared.UiState
+import com.example.ecommercedemo.utils.TestDispatcherProvider
+import com.example.ecommercedemo.utils.getMockedProducts
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
@@ -50,7 +50,7 @@ class ProductListViewModelTest {
 
     @Test
     fun `should emit loading then success when use case returns data`() = runTest {
-        val mockProducts = listOf(Product(1, "Test product", 10.0, "", "", ""))
+        val mockProducts = getMockedProducts()
         coEvery { getProductListUseCase.execute(Unit) } returns flowOf(mockProducts)
 
         sut.uiState.test {

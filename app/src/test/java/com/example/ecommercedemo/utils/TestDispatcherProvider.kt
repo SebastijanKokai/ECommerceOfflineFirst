@@ -1,4 +1,4 @@
-package com.example.ecommercedemo.dispatcher
+package com.example.ecommercedemo.utils
 
 import com.example.ecommercedemo.core.dispatcher.CoroutineDispatcherProvider
 import kotlinx.coroutines.CoroutineDispatcher
