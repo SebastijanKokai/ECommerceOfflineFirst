@@ -1,5 +1,8 @@
+@file:Suppress("IllegalIdentifier")
+
 package com.example.ecommercedemo.ui.productlist
 
+import app.cash.turbine.test
 import com.example.ecommercedemo.dispatcher.TestDispatcherProvider
 import com.example.ecommercedemo.domain.model.Product
 import com.example.ecommercedemo.domain.usecase.product.GetProductListUseCase
@@ -11,7 +14,6 @@ import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
@@ -45,13 +47,16 @@ class ProductListViewModelTest {
     }
 
     @Test
-    fun `should set Success when use case returns data`() = runTest {
+    fun `should emit loading then success when use case returns data`() = runTest {
         val mockProducts = listOf(Product(1, "Test product", 10.0, "", "", ""))
         coEvery { getProductListUseCase.execute(Unit) } returns flowOf(mockProducts)
 
-        sut.loadProducts()
-        advanceUntilIdle()
+        sut.uiState.test {
+            sut.loadProducts()
 
-        assert(sut.uiState.value is UiState.Success)
+            assert(awaitItem() is UiState.Initial)
+            assert(awaitItem() is UiState.Loading)
+            assert(awaitItem() is UiState.Success)
+        }
     }
 }

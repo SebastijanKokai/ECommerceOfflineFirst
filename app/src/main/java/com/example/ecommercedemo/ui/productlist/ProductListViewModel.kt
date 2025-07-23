@@ -12,7 +12,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 
 
@@ -30,10 +29,10 @@ class ProductListViewModel(
 
     fun loadProducts() {
         viewModelScope.launch {
+            _uiState.value = UiState.Loading
             getProductListUseCase.execute(Unit)
                 .map { products -> products.toProductListUiModel() }
                 .map { uiList -> if (uiList.isEmpty()) UiState.Empty else UiState.Success(uiList) }
-                .onStart { _uiState.value = UiState.Loading }
                 .catch { e ->
                     _uiState.value = UiState.Error(e.message ?: "Unknown Error")
                 }
