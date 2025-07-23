@@ -1,21 +1,16 @@
-@file:Suppress("IllegalIdentifier")
-
-package com.example.ecommercedemo.ui.productlist
+package com.example.ecommercedemo.ui.productdetail
 
 import app.cash.turbine.test
 import com.example.ecommercedemo.dispatcher.TestDispatcherProvider
 import com.example.ecommercedemo.domain.model.Product
-import com.example.ecommercedemo.domain.usecase.product.GetProductListUseCase
-import com.example.ecommercedemo.domain.usecase.product.RefreshProductsUseCase
-import com.example.ecommercedemo.ui.mapper.toProductListUiModel
+import com.example.ecommercedemo.domain.usecase.product.GetProductDetailUseCase
+import com.example.ecommercedemo.ui.mapper.toProductDetailUiModel
 import com.example.ecommercedemo.ui.shared.UiState
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
@@ -24,23 +19,20 @@ import org.junit.Before
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class ProductListViewModelTest {
-    private val testDispatcher = TestDispatcherProvider()
+class ProductDetailViewModelTest {
+    private lateinit var sut: ProductDetailViewModel
+    private lateinit var testDispatcher: TestDispatcherProvider
+    private var productId: Int = 1
 
     @MockK
-    private lateinit var getProductListUseCase: GetProductListUseCase
-
-    @MockK
-    private lateinit var refreshProductsUseCase: RefreshProductsUseCase
-
-    private lateinit var sut: ProductListViewModel
+    private lateinit var mockGetProductDetailUseCase: GetProductDetailUseCase
 
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
+        testDispatcher = TestDispatcherProvider()
         Dispatchers.setMain(testDispatcher.main)
-        sut =
-            ProductListViewModel(getProductListUseCase, refreshProductsUseCase)
+        sut = ProductDetailViewModel(productId, mockGetProductDetailUseCase)
     }
 
     @After
@@ -49,17 +41,25 @@ class ProductListViewModelTest {
     }
 
     @Test
-    fun `should emit loading then success when use case returns data`() = runTest {
-        val mockProducts = listOf(Product(1, "Test product", 10.0, "", "", ""))
-        coEvery { getProductListUseCase.execute(Unit) } returns flowOf(mockProducts)
+    fun `should emit loading then success when use case returns a valid product`() = runTest {
+        val mockedProduct = Product(
+            id = 1,
+            title = "Mocked Product",
+            price = 10.0,
+            description = "A mocked product for testing",
+            category = "mock",
+            image = ""
+        )
+
+        coEvery { mockGetProductDetailUseCase.execute(productId) } returns mockedProduct
 
         sut.uiState.test {
-            sut.loadProducts()
+            sut.loadProduct()
 
             assert(awaitItem() is UiState.Initial)
             assert(awaitItem() is UiState.Loading)
             val successState = awaitItem() as UiState.Success
-            assert(successState.data == mockProducts.toProductListUiModel())
+            assert(successState.data == mockedProduct.toProductDetailUiModel())
 
             cancelAndConsumeRemainingEvents()
         }
@@ -67,16 +67,16 @@ class ProductListViewModelTest {
 
     @Test
     fun `should emit loading then error when use case throws an exception`() = runTest {
-        coEvery { getProductListUseCase.execute(Unit) } returns flow {
-            throw Exception()
-        }
+        coEvery { mockGetProductDetailUseCase.execute(productId) } throws Exception()
 
         sut.uiState.test {
-            sut.loadProducts()
+            sut.loadProduct()
 
             assert(awaitItem() is UiState.Initial)
             assert(awaitItem() is UiState.Loading)
             assert(awaitItem() is UiState.Error)
+
+            cancelAndConsumeRemainingEvents()
         }
     }
 }

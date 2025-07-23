@@ -24,6 +24,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -55,6 +56,10 @@ fun ProductDetailScreen(
 ) {
     val uiState by productDetailViewModel.uiState.collectAsState()
     var quantity by remember { mutableIntStateOf(1) }
+
+    LaunchedEffect(Unit) {
+        productDetailViewModel.loadProduct()
+    }
 
     Scaffold(
         topBar = { TopAppBar(title = { Text("Product Detail") }) },

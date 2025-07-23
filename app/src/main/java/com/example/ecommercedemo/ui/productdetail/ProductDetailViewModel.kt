@@ -19,11 +19,7 @@ class ProductDetailViewModel(
     private val _uiState = MutableStateFlow<UiState<ProductDetailUi?>>(UiState.Initial)
     val uiState: StateFlow<UiState<ProductDetailUi?>> = _uiState
 
-    init {
-        loadProduct()
-    }
-
-    private fun loadProduct() {
+    fun loadProduct() {
         viewModelScope.launch {
             _uiState.value = UiState.Loading
 
